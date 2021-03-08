@@ -1,5 +1,6 @@
 package com.lakhlifi.albums.view
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -19,7 +20,7 @@ class AlbumInfo : AppCompatActivity() {
     lateinit var binding:ActivityAlbumInfoBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= DataBindingUtil.setContentView(this,R.layout.activity_album)
+        binding= DataBindingUtil.setContentView(this,R.layout.activity_album_info)
 
         //views with binding
         val album_title_binding=binding.albumTitle
@@ -40,10 +41,16 @@ class AlbumInfo : AppCompatActivity() {
         //filter using the method getAlbum
         albumInfoViewModel.getAlbum(application,id)
         albumInfoViewModel.album.observe(this, Observer{
-            album_title.setText(it.title)
-           Picasso.get().load("https://picsum.photos/id/${it.id}/200").into(image_info);
-            id_album.setText(""+it.id)
-            id_user.text=""+it.userId
+            album_title_binding.setText(it.title)
+           Picasso.get().load("https://picsum.photos/id/${it.id}/200").into(album_image_binding);
+            //id_album_binding.setText(""+it.id)
+
+            id_album.apply {
+                text= it.id.toString()
+                setBackgroundColor(Color.RED)
+            }
+
+            id_user_binding.text=""+it.userId
 
         })
 }

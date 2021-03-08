@@ -7,7 +7,7 @@ import kotlinx.coroutines.internal.PrepareOp
 @Entity
 data class Album(
     @PrimaryKey
-    val id: Int,
-    val title: String,
-    val userId: Int
+    var id: Int,
+    var title: String,
+    var userId: Int
 )
