@@ -1,13 +1,15 @@
 package com.lakhlifi.albums.viewModel
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.lakhlifi.albums.network.model.Album
 import com.lakhlifi.albums.repository.AlbumRepository
 
-class AlbumViewModel(application: Application):AndroidViewModel( application) {
-    private val repository=AlbumRepository(application)
+class AlbumViewModel: ViewModel() {
+    private val repository=AlbumRepository()
 
     val albumList : LiveData<List<Album>>
 
@@ -15,8 +17,8 @@ class AlbumViewModel(application: Application):AndroidViewModel( application) {
         this.albumList = repository.albumList
     }
 
-    fun getAlbums(){
-        repository.getAlbums()
+    fun getAlbums(application: Application){
+        repository.getAlbums(application)
     }
 
 }

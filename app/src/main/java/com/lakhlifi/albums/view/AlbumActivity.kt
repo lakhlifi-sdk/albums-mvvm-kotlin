@@ -32,8 +32,7 @@ class AlbumActivity : AppCompatActivity() {
         rvUsers.adapter = adapter
 
         albumViewModel= ViewModelProvider(this).get(AlbumViewModel::class.java)
-
-        albumViewModel.getAlbums()
+        albumViewModel.getAlbums(application)
 
         albumViewModel.albumList.observe(this, Observer {
             adapter.setAlbumList(it)
