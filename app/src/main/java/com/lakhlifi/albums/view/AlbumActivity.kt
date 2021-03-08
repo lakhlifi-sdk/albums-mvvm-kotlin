@@ -18,7 +18,6 @@ class AlbumActivity : AppCompatActivity() {
 
     private lateinit var albumViewModel: AlbumViewModel
     private lateinit var adapter: AlbumAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_album)

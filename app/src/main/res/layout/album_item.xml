@@ -28,6 +28,7 @@
                 android:src="@drawable/image"/>
 
             <TextView
+                android:transitionName="transition_title"
                 android:id="@+id/txt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,8 +43,5 @@
             android:layout_height="1dp"
             android:background="#ccc"
             tools:ignore="MissingConstraints"/>
-
     </androidx.cardview.widget.CardView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

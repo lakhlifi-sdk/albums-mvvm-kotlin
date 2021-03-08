@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
+import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,14 +55,17 @@ class AlbumAdapter( val context: Context) : RecyclerView.Adapter<AlbumAdapter.Vi
         // Set item views based on your views and data model
         val album_title = viewHolder.album_title
         album_title.setText(album.title)
-
-        Picasso.get().load("https://picsum.photos/id/${album.id}/200").into(viewHolder.album_image);
+        Picasso.get().load("https://picsum.photos/id/${album.id}/200").into(viewHolder.album_image)
 
         viewHolder.itemView.setOnClickListener {
-
             val i = Intent(context, AlbumInfo::class.java)
             i.putExtra("id", album.id)
-            context.startActivity(i,ActivityOptions.makeSceneTransitionAnimation(context as Activity, viewHolder.album_image, "transition_image").toBundle())
+            //animation for image
+            val p1=Pair.create<View, String>(viewHolder.album_image, "transition_image")
+            //animation for title
+            val p2=Pair.create<View, String>(viewHolder.album_image, "transition_title")
+            val options = ActivityOptions.makeSceneTransitionAnimation(context as Activity,  p1,  p2)
+            context.startActivity(i,options.toBundle())
         }
     }
 
