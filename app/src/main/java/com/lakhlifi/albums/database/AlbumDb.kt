@@ -1,6 +1,7 @@
 package com.lakhlifi.albums.database
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -14,7 +15,7 @@ abstract class AlbumDb:RoomDatabase() {
 
     companion object{
         var albumDb:AlbumDb?=null
-        fun get(application: Application):AlbumDb{
+        fun get(application: Context):AlbumDb{
             if (albumDb==null)
             albumDb= Room.databaseBuilder(application,AlbumDb::class.java, "albums").allowMainThreadQueries().build()
             return albumDb!!

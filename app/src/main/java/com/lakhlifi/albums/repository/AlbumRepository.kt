@@ -1,6 +1,7 @@
 package com.lakhlifi.albums.repository
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
@@ -17,16 +18,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class AlbumRepository() {
     val albumList = MutableLiveData<List<Album>>()
-
-
-    fun getAlbums(application: Application){
+    fun getAlbums(application: Context){
 
         val db = AlbumDb.get(application)
         val albumDao = db.albumDao()
         val albums = albumDao.getAllAlbums()
 
         if (albums.size > 0){
-            Log.d("ALBUMS" , "FROM DB")
+            Log.d("ALBUMS" , "FROM DB${Gson().toJson(albums)}")
             albumList.value = albums
             return
         }
@@ -36,6 +35,7 @@ class AlbumRepository() {
                 .build()
 
         val service=retrofit.create(AlbumNetwork::class.java)
+
         service.getAlbums().enqueue(object : Callback<List<Album>>{
             override fun onFailure(call: Call<List<Album>>, t: Throwable) {
                 Toast.makeText(application,"error", Toast.LENGTH_LONG).show()
