@@ -9,7 +9,7 @@ interface AlbumDao {
     fun insertAlbum(List: List<Album>)
 
     @Delete
-    fun delete(album: Album)
+    fun deleteAlbum(album: Album)
 
     @Query("SELECT * FROM album WHERE id = :id" )
     fun getAlbum(id: Int) : Album

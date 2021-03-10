@@ -18,14 +18,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class AlbumRepository() {
     val albumList = MutableLiveData<List<Album>>()
-    fun getAlbums(application: Context){
+    fun getAlbums(application: Context) {
 
         val db = AlbumDb.get(application)
         val albumDao = db.albumDao()
         val albums = albumDao.getAllAlbums()
 
-        if (albums.size > 0){
-            Log.d("ALBUMS" , "FROM DB${Gson().toJson(albums)}")
+        if (albums.size > 0) {
+            Log.d("ALBUMS", "FROM DB${Gson().toJson(albums)}")
             albumList.value = albums
             return
         }
@@ -34,25 +34,32 @@ class AlbumRepository() {
             Retrofit.Builder().baseUrl(ALBUM_URL).addConverterFactory(GsonConverterFactory.create())
                 .build()
 
-        val service=retrofit.create(AlbumNetwork::class.java)
+        val service = retrofit.create(AlbumNetwork::class.java)
 
-        service.getAlbums().enqueue(object : Callback<List<Album>>{
+        service.getAlbums().enqueue(object : Callback<List<Album>> {
             override fun onFailure(call: Call<List<Album>>, t: Throwable) {
-                Toast.makeText(application,"error", Toast.LENGTH_LONG).show()
+                Toast.makeText(application, "error", Toast.LENGTH_LONG).show()
             }
+
             override fun onResponse(
                 call: Call<List<Album>>,
                 response: Response<List<Album>>
             ) {
-                Log.d("ALBUMS" , "FROM API")
-                Log.d("ALbumRepository","Response: ${Gson().toJson(response.body())}")
-                albumList.value=response.body()
-                albumDao.insertAlbum( albumList.value!!)
+                Log.d("ALBUMS", "FROM API")
+                Log.d("ALbumRepository", "Response: ${Gson().toJson(response.body())}")
+                albumList.value = response.body()
+                albumDao.insertAlbum(albumList.value!!)
             }
         })
 
+
     }
 
+    fun deleteAlbum(context: Context, album: Album) {
+        val db = AlbumDb.get(context)
+        val albumDao = db.albumDao()
+        albumDao.deleteAlbum(album)
+    }
 
 
 }

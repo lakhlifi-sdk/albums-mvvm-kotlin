@@ -13,12 +13,17 @@ class AlbumViewModel: ViewModel() {
 
     val albumList : LiveData<List<Album>>
 
+
     init {
         this.albumList = repository.albumList
     }
 
     fun getAlbums(application: Application){
         repository.getAlbums(application)
+    }
+
+    fun removeItem(context: Context, removedItem: Album) {
+        repository.deleteAlbum(context, removedItem)
     }
 
 }
