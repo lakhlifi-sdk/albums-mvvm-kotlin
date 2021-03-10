@@ -1,9 +1,12 @@
 package com.lakhlifi.albums.view
 
+import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -18,12 +21,12 @@ import com.lakhlifi.albums.adapter.AlbumAdapter
 import com.lakhlifi.albums.dao.AlbumDao
 import com.lakhlifi.albums.network.model.Album
 import com.lakhlifi.albums.viewModel.AlbumViewModel
+import kotlin.math.absoluteValue
 
 
 class AlbumActivity : AppCompatActivity() {
     lateinit var rvAlbums : RecyclerView
     lateinit var  swipeRefreshLayout : SwipeRefreshLayout
-
 
     private lateinit var albumViewModel: AlbumViewModel
     private lateinit var adapter: AlbumAdapter
@@ -93,15 +96,15 @@ class AlbumActivity : AppCompatActivity() {
                        }
 
                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                           albumViewModel.removeItem(applicationContext, removedItem)
-                           Toast.makeText(this@AlbumActivity,"Item deleted  from database",Toast.LENGTH_LONG).show()
+                           albumViewModel.delete(this@AlbumActivity, removedItem)
+                           //albumViewModel.delete(this@AlbumActivity, adapter.getAlbumAt(position))
+
+                           //Toast.makeText(this@AlbumActivity,"Item deleted  from database",Toast.LENGTH_LONG).show()
                        }
 
-                   })
 
+                   })
                 snackbar.show()
             }
-
-
         })
 }

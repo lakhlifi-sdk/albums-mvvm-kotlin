@@ -55,10 +55,10 @@ class AlbumRepository() {
 
     }
 
-    fun deleteAlbum(context: Context, album: Album) {
+    fun deleteAlbum(context: Context, id:Album) {
         val db = AlbumDb.get(context)
         val albumDao = db.albumDao()
-        albumDao.deleteAlbum(album)
+        albumDao.deleteAlbum(id)
     }
 
 

@@ -32,6 +32,9 @@ class AlbumAdapter( val context: Context) : RecyclerView.Adapter<AlbumAdapter.Vi
         notifyItemRemoved(position)
         return item
     }
+    fun getNotAt(position: Int):Album{
+        return album_list.get(position)
+    }
 
     fun restoreItem( position: Int,item: Album) {
         album_list.add(position,item)

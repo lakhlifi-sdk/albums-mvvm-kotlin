@@ -22,7 +22,7 @@ class AlbumViewModel: ViewModel() {
         repository.getAlbums(application)
     }
 
-    fun removeItem(context: Context, removedItem: Album) {
+    fun delete(context: Context, removedItem: Album) {
         repository.deleteAlbum(context, removedItem)
     }
 
