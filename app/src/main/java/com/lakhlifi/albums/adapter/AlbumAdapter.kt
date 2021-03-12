@@ -41,6 +41,7 @@ class AlbumAdapter( val context: Context) : RecyclerView.Adapter<AlbumAdapter.Vi
         notifyItemInserted(position)
     }
 
+
     //get view holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumAdapter.ViewHolder {
         val context = parent.context

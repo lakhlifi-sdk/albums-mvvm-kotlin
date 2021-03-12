@@ -1,12 +1,8 @@
 package com.lakhlifi.albums.view
 
-import android.app.Application
-import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -18,15 +14,11 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.lakhlifi.albums.R
 import com.lakhlifi.albums.adapter.AlbumAdapter
-import com.lakhlifi.albums.dao.AlbumDao
-import com.lakhlifi.albums.network.model.Album
 import com.lakhlifi.albums.viewModel.AlbumViewModel
-import kotlin.math.absoluteValue
-
 
 class AlbumActivity : AppCompatActivity() {
-    lateinit var rvAlbums : RecyclerView
-    lateinit var  swipeRefreshLayout : SwipeRefreshLayout
+    lateinit var rvAlbums: RecyclerView
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     private lateinit var albumViewModel: AlbumViewModel
     private lateinit var adapter: AlbumAdapter
@@ -35,12 +27,12 @@ class AlbumActivity : AppCompatActivity() {
         setContentView(R.layout.activity_album)
 
         rvAlbums = findViewById(R.id.rv_album)
-        swipeRefreshLayout=findViewById<SwipeRefreshLayout>(R.id.swip_refresh_layout)
-        adapter = AlbumAdapter( this)
+        swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swip_refresh_layout)
+        adapter = AlbumAdapter(this)
         itemTouchHelper.attachToRecyclerView(rvAlbums)
         rvAlbums.adapter = adapter
 
-        albumViewModel= ViewModelProvider(this).get(AlbumViewModel::class.java)
+        albumViewModel = ViewModelProvider(this).get(AlbumViewModel::class.java)
         albumViewModel.getAlbums(application)
 
         albumViewModel.albumList.observe(this, Observer {
@@ -50,11 +42,8 @@ class AlbumActivity : AppCompatActivity() {
         rvAlbums.layoutManager = LinearLayoutManager(this)
 
         swipeRefreshLayout.setOnRefreshListener(OnRefreshListener {
-            //adapter.notifylist()
-            //adapter.notifyDataSetChanged()
-            adapter.setAlbumList(albumViewModel.albumList.value!!)
-            swipeRefreshLayout.isRefreshing=false
-
+            albumViewModel.getAlbums(application)
+            swipeRefreshLayout.isRefreshing = false
         })
 
 
@@ -62,9 +51,9 @@ class AlbumActivity : AppCompatActivity() {
 
     var itemTouchHelper = ItemTouchHelper(
         object : ItemTouchHelper.SimpleCallback(
-                0,  ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
+            0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
 
-    ) {
+        ) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -74,8 +63,8 @@ class AlbumActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position =viewHolder.adapterPosition
-                val removedItem=adapter.removeItem(position)
+                val position = viewHolder.adapterPosition
+                val removedItem = adapter.removeItem(position)
                 //adapter.notifyItemRemoved(viewHolder.adapterPosition)
                 val snackbar = Snackbar
                     .make(
@@ -86,24 +75,22 @@ class AlbumActivity : AppCompatActivity() {
 
                 snackbar.setAction("DISMISS", View.OnClickListener {
                     // executed when DISMISS is clicked
-                    adapter.restoreItem(position,removedItem);
+                    adapter.restoreItem(position, removedItem);
                     System.out.println("Snackbar Set Action - OnClick.")
                 })
-                   snackbar.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                snackbar.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
 
-                       override fun onShown(transientBottomBar: Snackbar?) {
-                           super.onShown(transientBottomBar)
-                       }
+                    override fun onShown(transientBottomBar: Snackbar?) {
+                        super.onShown(transientBottomBar)
+                    }
 
-                       override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                           albumViewModel.delete(this@AlbumActivity, removedItem)
-                           //albumViewModel.delete(this@AlbumActivity, adapter.getAlbumAt(position))
-
-                           //Toast.makeText(this@AlbumActivity,"Item deleted  from database",Toast.LENGTH_LONG).show()
-                       }
+                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                        if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT)
+                            albumViewModel.delete(this@AlbumActivity, removedItem)
+                    }
 
 
-                   })
+                })
                 snackbar.show()
             }
         })

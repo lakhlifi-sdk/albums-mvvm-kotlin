@@ -28,29 +28,31 @@ class AlbumRepository() {
             Log.d("ALBUMS", "FROM DB${Gson().toJson(albums)}")
             albumList.value = albums
             return
+        }else {
+
+            val retrofit =
+                Retrofit.Builder().baseUrl(ALBUM_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+
+            val service = retrofit.create(AlbumNetwork::class.java)
+
+            service.getAlbums().enqueue(object : Callback<List<Album>> {
+                override fun onFailure(call: Call<List<Album>>, t: Throwable) {
+                    Toast.makeText(application, "error", Toast.LENGTH_LONG).show()
+                }
+
+                override fun onResponse(
+                    call: Call<List<Album>>,
+                    response: Response<List<Album>>
+                ) {
+                    Log.d("ALBUMS", "FROM API")
+                    Log.d("ALbumRepository", "Response: ${Gson().toJson(response.body())}")
+                    albumList.value = response.body()
+                    albumDao.insertAlbum(albumList.value!!)
+                }
+            })
         }
-
-        val retrofit =
-            Retrofit.Builder().baseUrl(ALBUM_URL).addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-        val service = retrofit.create(AlbumNetwork::class.java)
-
-        service.getAlbums().enqueue(object : Callback<List<Album>> {
-            override fun onFailure(call: Call<List<Album>>, t: Throwable) {
-                Toast.makeText(application, "error", Toast.LENGTH_LONG).show()
-            }
-
-            override fun onResponse(
-                call: Call<List<Album>>,
-                response: Response<List<Album>>
-            ) {
-                Log.d("ALBUMS", "FROM API")
-                Log.d("ALbumRepository", "Response: ${Gson().toJson(response.body())}")
-                albumList.value = response.body()
-                albumDao.insertAlbum(albumList.value!!)
-            }
-        })
 
 
     }

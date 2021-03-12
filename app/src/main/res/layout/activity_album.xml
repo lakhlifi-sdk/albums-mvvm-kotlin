@@ -7,15 +7,18 @@
     tools:context=".view.AlbumActivity">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
         android:id="@+id/swip_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:ignore="MissingConstraints">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:background="#F00"
             android:id="@+id/rv_album"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
         </androidx.recyclerview.widget.RecyclerView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

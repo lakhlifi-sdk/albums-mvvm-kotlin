@@ -9,7 +9,7 @@ interface AlbumDao {
     fun insertAlbum(List: List<Album>)
 
     @Delete
-    fun deleteAlbum(album: Album)
+    fun deleteAlbum(album: Album) : Int
 
     @Query("SELECT * FROM album WHERE id = :id" )
     fun getAlbum(id: Int) : Album
@@ -17,5 +17,16 @@ interface AlbumDao {
     @Query("SELECT * FROM album")
     fun getAllAlbums(): List<Album>
 
+    @Insert
+    fun insertAlbum(album: Album) : Long
+
+    @Query("UPDATE album SET title = :title ,userId= :userId WHERE id LIKE :id ")
+    open fun updateAlbum(id: Int, title: String, userId: Int): Int
+
+    @Query("SELECT * FROM Album WHERE id= :id")
+    fun find(id: Int): Int
+
+    @Query("SELECT * FROM album")
+    fun read():Int
 
 }

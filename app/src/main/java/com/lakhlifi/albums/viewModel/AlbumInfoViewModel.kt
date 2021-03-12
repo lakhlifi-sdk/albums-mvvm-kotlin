@@ -14,7 +14,6 @@ class AlbumInfoViewModel(application: Application) : AndroidViewModel(applicatio
 
     val album  = MutableLiveData<Album>()
 
-
     fun getAlbum(application: Application, id: Int) {
         viewModelScope.launch {
             val albumDb = AlbumDb.get(application).albumDao().getAlbum(id)
