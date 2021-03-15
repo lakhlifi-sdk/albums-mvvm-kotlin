@@ -13,12 +13,10 @@ import kotlinx.coroutines.launch
 class AlbumInfoViewModel(application: Application) : AndroidViewModel(application) {
 
     val album  = MutableLiveData<Album>()
-
     fun getAlbum(application: Application, id: Int) {
         viewModelScope.launch {
             val albumDb = AlbumDb.get(application).albumDao().getAlbum(id)
             album.value = albumDb
         }
     }
-
 }

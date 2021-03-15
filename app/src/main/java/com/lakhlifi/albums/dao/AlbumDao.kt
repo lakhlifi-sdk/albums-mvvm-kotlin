@@ -12,7 +12,7 @@ interface AlbumDao {
     suspend fun deleteAlbum(album: Album) : Int
 
     @Query("SELECT * FROM album WHERE id = :id" )
-    fun getAlbum(id: Int) : Album
+    suspend fun getAlbum(id: Int) : Album
 
     @Query("SELECT * FROM album")
     suspend fun getAllAlbums(): List<Album>
