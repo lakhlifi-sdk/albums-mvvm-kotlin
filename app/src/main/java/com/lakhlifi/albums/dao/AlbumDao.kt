@@ -6,19 +6,19 @@ import com.lakhlifi.albums.network.model.Album
 @Dao
 interface AlbumDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAlbum(List: List<Album>)
+    suspend  fun insertAlbum(List: List<Album>)
 
     @Delete
-    fun deleteAlbum(album: Album) : Int
+    suspend fun deleteAlbum(album: Album) : Int
 
     @Query("SELECT * FROM album WHERE id = :id" )
     fun getAlbum(id: Int) : Album
 
     @Query("SELECT * FROM album")
-    fun getAllAlbums(): List<Album>
+    suspend fun getAllAlbums(): List<Album>
 
     @Insert
-    fun insertAlbum(album: Album) : Long
+    suspend fun insertAlbum(album: Album) : Long
 
     @Query("UPDATE album SET title = :title ,userId= :userId WHERE id LIKE :id ")
     open fun updateAlbum(id: Int, title: String, userId: Int): Int

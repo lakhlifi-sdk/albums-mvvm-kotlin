@@ -9,6 +9,8 @@ import com.lakhlifi.albums.database.AlbumDb
 import com.lakhlifi.albums.network.ALBUM_URL
 import com.lakhlifi.albums.network.AlbumNetwork
 import com.lakhlifi.albums.network.model.Album
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class AlbumRepository() {
     val albumList = MutableLiveData<List<Album>>()
-    fun getAlbums(application: Context) {
+     suspend fun getAlbums(application: Context) {
 
         val db = AlbumDb.get(application)
         val albumDao = db.albumDao()
@@ -48,19 +50,21 @@ class AlbumRepository() {
                     Log.d("ALBUMS", "FROM API")
                     Log.d("ALbumRepository", "Response: ${Gson().toJson(response.body())}")
                     albumList.value = response.body()
-                    albumDao.insertAlbum(albumList.value!!)
+                    GlobalScope.launch { albumDao.insertAlbum(albumList.value!!) }
+
                 }
             })
         }
     }
 
-    fun deleteAlbum(context: Context, id:Album) {
+
+    suspend fun deleteAlbum(context: Context, id:Album) {
         val db = AlbumDb.get(context)
         val albumDao = db.albumDao()
         albumDao.deleteAlbum(id)
     }
 
-    fun insert(context: Context, album: Album) {
+    suspend fun insert(context: Context, album: Album) {
         val db = AlbumDb.get(context)
         val albumDao = db.albumDao()
         albumDao.insertAlbum(album)
