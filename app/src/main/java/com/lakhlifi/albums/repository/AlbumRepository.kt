@@ -1,6 +1,5 @@
 package com.lakhlifi.albums.repository
 
-import android.app.Application
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
@@ -53,8 +52,6 @@ class AlbumRepository() {
                 }
             })
         }
-
-
     }
 
     fun deleteAlbum(context: Context, id:Album) {
@@ -63,5 +60,10 @@ class AlbumRepository() {
         albumDao.deleteAlbum(id)
     }
 
+    fun insert(context: Context, album: Album) {
+        val db = AlbumDb.get(context)
+        val albumDao = db.albumDao()
+        albumDao.insertAlbum(album)
+    }
 
 }

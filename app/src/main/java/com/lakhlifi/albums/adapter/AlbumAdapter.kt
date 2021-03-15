@@ -40,6 +40,10 @@ class AlbumAdapter( val context: Context) : RecyclerView.Adapter<AlbumAdapter.Vi
         album_list.add(position,item)
         notifyItemInserted(position)
     }
+    fun addItem( position: Int,item: Album) {
+        album_list.add(position,item)
+        notifyItemInserted(position)
+    }
 
 
     //get view holder

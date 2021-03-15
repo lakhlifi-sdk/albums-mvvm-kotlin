@@ -4,13 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".view.AlbumActivity">
+    <Button
+        android:id="@+id/btn_add_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add item"
+        tools:ignore="MissingConstraints">
+    </Button>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
         android:id="@+id/swip_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="44dp"
         tools:ignore="MissingConstraints">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -18,6 +27,7 @@
             android:id="@+id/rv_album"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="100dp"
             >
         </androidx.recyclerview.widget.RecyclerView>
 

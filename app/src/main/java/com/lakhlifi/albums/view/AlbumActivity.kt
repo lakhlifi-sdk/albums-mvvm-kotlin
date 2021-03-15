@@ -1,7 +1,10 @@
 package com.lakhlifi.albums.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,11 +17,14 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.lakhlifi.albums.R
 import com.lakhlifi.albums.adapter.AlbumAdapter
+import com.lakhlifi.albums.network.model.Album
 import com.lakhlifi.albums.viewModel.AlbumViewModel
+import kotlin.random.Random
 
 class AlbumActivity : AppCompatActivity() {
     lateinit var rvAlbums: RecyclerView
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var btn_add_item: Button
 
     private lateinit var albumViewModel: AlbumViewModel
     private lateinit var adapter: AlbumAdapter
@@ -46,8 +52,22 @@ class AlbumActivity : AppCompatActivity() {
             swipeRefreshLayout.isRefreshing = false
         })
 
+        btn_add_item=findViewById(R.id.btn_add_item)
+
+
+
+        btn_add_item.setOnClickListener(View.OnClickListener {
+            val random= Random.nextInt(120,1000)
+            Log.d("random",""+random)
+            var album=Album(random,"album added",12)
+            albumViewModel.insert(this,album)
+            Toast.makeText(this,"item inserted",Toast.LENGTH_LONG).show()
+            Log.d("tag","item inserted")
+            adapter.addItem(1,album)
+        })
 
     }
+
 
     var itemTouchHelper = ItemTouchHelper(
         object : ItemTouchHelper.SimpleCallback(
