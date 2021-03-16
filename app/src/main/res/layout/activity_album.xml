@@ -15,25 +15,23 @@
     </Button>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-
         android:id="@+id/swip_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         tools:ignore="MissingConstraints">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:background="#F00"
             android:id="@+id/rv_album"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="100dp"
-            >
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp">
         </androidx.recyclerview.widget.RecyclerView>
-
+        <ImageView
+            android:id="@+id/empty_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/empty">
+        </ImageView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

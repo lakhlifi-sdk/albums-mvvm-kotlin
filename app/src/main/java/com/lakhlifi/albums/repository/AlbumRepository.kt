@@ -29,8 +29,7 @@ class AlbumRepository() {
             Log.d("ALBUMS", "FROM DB${Gson().toJson(albums)}")
             albumList.value = albums
             return
-        }else {
-
+        }else{
             val retrofit =
                 Retrofit.Builder().baseUrl(ALBUM_URL)
                     .addConverterFactory(GsonConverterFactory.create())

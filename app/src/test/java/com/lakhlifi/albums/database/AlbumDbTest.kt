@@ -31,6 +31,8 @@ import java.io.IOException
 class AlbumDbTest {
     private lateinit var db: AlbumDb
     private lateinit var albumDao: AlbumDao
+
+    //Function marked with this annotation executes before each test.
     @Before
     fun create_Album_Db() {
         val context = ApplicationProvider.getApplicationContext<Context>()
@@ -39,14 +41,22 @@ class AlbumDbTest {
         ).allowMainThreadQueries().build()
         albumDao = db.albumDao()
     }
+    //Function marked with this annotation executes after each test.
+    @After
+    @Throws(IOException::class)
+    fun close_album_db() {
+        db.close()
+    }
 
+    // to test insertion on database
     @Test
     fun insert_To_Album_Table_Test() = runBlocking {
-        var  album=Album(1,"hello",3)
-        var res= albumDao.insertAlbum(album)
+        val  album=Album(1,"hello",3)
+        val res= albumDao.insertAlbum(album)
         Assert.assertEquals(res,1)
     }
 
+    // for delete function
     @Test
     fun delete_Album_From_Album_Bb_Test()= runBlocking{
         val album = Album(1, "album 1", 1)
@@ -56,22 +66,25 @@ class AlbumDbTest {
         Assert.assertEquals(res,1)
     }
 
+    //to test update function
     @Test
-     fun test_Update_Album_Test(){
+     fun test_Update_Album_Test() = runBlocking {
         val album = Album(1, "album 1", 1)
-        GlobalScope.launch { albumDao.insertAlbum(album) }
+        albumDao.insertAlbum(album)
         val res=albumDao.updateAlbum(1,"this an album",2)
         Assert.assertEquals(res,1)
     }
 
+    // to test searchAlbum function from db
     @Test
-    fun serch_Album_By_Id_Test(){
+    fun serch_Album_By_Id_Test() = runBlocking {
         val album = Album(1, "album 1", 10)
-        GlobalScope.launch { albumDao.insertAlbum(album) }
+        albumDao.insertAlbum(album)
         val res=albumDao.find(1)
         Assert.assertEquals(res,1)
     }
 
+    // to test read function from db
     @Test
     fun read_From_Album_Table_Test()= runBlocking{
         val album = Album(1, "album 1", 1)
@@ -80,11 +93,4 @@ class AlbumDbTest {
         assertThat(res).isAtMost(1)
     }
 
-@After
-@Throws(IOException::class)
-fun close_album_db() {
-    db.close()
-}
-/*
-*/
 }

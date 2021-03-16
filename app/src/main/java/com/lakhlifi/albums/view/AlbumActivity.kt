@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -28,22 +29,20 @@ class AlbumActivity : AppCompatActivity() {
 
     private lateinit var albumViewModel: AlbumViewModel
     private lateinit var adapter: AlbumAdapter
+    private lateinit var empty_img:ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_album)
-
         rvAlbums = findViewById(R.id.rv_album)
         swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swip_refresh_layout)
         adapter = AlbumAdapter(this)
         itemTouchHelper.attachToRecyclerView(rvAlbums)
         rvAlbums.adapter = adapter
-
+        empty_img=findViewById(R.id.empty_img)
         albumViewModel = ViewModelProvider(this).get(AlbumViewModel::class.java)
-        albumViewModel.getAlbums(application)
-
+        //albumViewModel.getAlbums(application)
         albumViewModel.albumList.observe(this, Observer {
-            adapter.setAlbumList(it)
-
+                adapter.setAlbumList(it)
         })
         rvAlbums.layoutManager = LinearLayoutManager(this)
 
@@ -54,20 +53,17 @@ class AlbumActivity : AppCompatActivity() {
 
         btn_add_item=findViewById(R.id.btn_add_item)
 
-
-
+    //add an album to database
         btn_add_item.setOnClickListener(View.OnClickListener {
             val random= Random.nextInt(120,1000)
             Log.d("random",""+random)
-            var album=Album(random,"album added",12)
+            var album=Album(random,"album added "+random,12)
             albumViewModel.insert(this,album)
             Toast.makeText(this,"item inserted",Toast.LENGTH_LONG).show()
             Log.d("tag","item inserted")
             adapter.addItem(1,album)
         })
-
     }
-
 
     var itemTouchHelper = ItemTouchHelper(
         object : ItemTouchHelper.SimpleCallback(
@@ -99,7 +95,6 @@ class AlbumActivity : AppCompatActivity() {
                     System.out.println("Snackbar Set Action - OnClick.")
                 })
                 snackbar.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-
                     override fun onShown(transientBottomBar: Snackbar?) {
                         super.onShown(transientBottomBar)
                     }
@@ -107,6 +102,7 @@ class AlbumActivity : AppCompatActivity() {
                     override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                         if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT)
                             albumViewModel.delete(this@AlbumActivity, removedItem)
+                        Toast.makeText(this@AlbumActivity,"item deleted",Toast.LENGTH_SHORT).show()
                     }
 
 

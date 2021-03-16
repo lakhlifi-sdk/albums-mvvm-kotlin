@@ -22,6 +22,8 @@ class AlbumInfo : AppCompatActivity() {
     lateinit var binding:ActivityAlbumInfoBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //get setContentView from DataBindingUtil
         binding= DataBindingUtil.setContentView(this,R.layout.activity_album_info)
 
         //views with binding
@@ -52,13 +54,11 @@ class AlbumInfo : AppCompatActivity() {
                .placeholder(R.drawable.image)
                .into(album_image_binding);
             //id_album_binding.setText(""+it.id)
-
             id_album.apply {
                 text= it.id.toString()
-                setBackgroundColor(Color.RED)
+                setBackgroundColor(Color.TRANSPARENT)
             }
             id_user_binding.text=""+it.userId
-
         })
 }
 }
