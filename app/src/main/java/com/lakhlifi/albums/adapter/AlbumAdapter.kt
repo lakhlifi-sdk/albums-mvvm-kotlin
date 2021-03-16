@@ -58,7 +58,6 @@ class AlbumAdapter( val context: Context) : RecyclerView.Adapter<AlbumAdapter.Vi
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
-
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
         // Your holder should contain and initialize a member variable
         // for any view that will be set as you render a row

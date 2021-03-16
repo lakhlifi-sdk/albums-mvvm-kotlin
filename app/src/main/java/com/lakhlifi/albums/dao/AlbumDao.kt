@@ -21,7 +21,7 @@ interface AlbumDao {
     suspend fun insertAlbum(album: Album) : Long
 
     @Query("UPDATE album SET title = :title ,userId= :userId WHERE id LIKE :id ")
-    open fun updateAlbum(id: Int, title: String, userId: Int): Int
+    fun updateAlbum(id: Int, title: String, userId: Int): Int
 
     @Query("SELECT * FROM Album WHERE id= :id")
     fun find(id: Int): Int

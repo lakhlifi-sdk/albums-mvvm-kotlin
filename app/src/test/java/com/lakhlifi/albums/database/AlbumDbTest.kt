@@ -17,6 +17,8 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.checkerframework.checker.nullness.qual.Nullable
 import org.junit.After
 import org.junit.Assert
@@ -46,32 +48,32 @@ class AlbumDbTest {
     }
 
     @Test
-    fun delete_Album_From_Album_Bb_Test(){
+    fun delete_Album_From_Album_Bb_Test()= runBlocking{
         val album = Album(1, "album 1", 1)
         val id=albumDao.insertAlbum(album)
-        assertThat(id).isAtMost(2)
+        assertThat(id).isAtMost(1)
         val res=albumDao.deleteAlbum(album)
         Assert.assertEquals(res,1)
     }
 
     @Test
-    fun test_Update_Album_Test(){
+     fun test_Update_Album_Test(){
         val album = Album(1, "album 1", 1)
-        albumDao.insertAlbum(album)
-        val res=albumDao.updateAlbum(1,"this is me",2)
+        GlobalScope.launch { albumDao.insertAlbum(album) }
+        val res=albumDao.updateAlbum(1,"this an album",2)
         Assert.assertEquals(res,1)
     }
 
     @Test
     fun serch_Album_By_Id_Test(){
-        val album = Album(1, "album 1", 1)
-        albumDao.insertAlbum(album)
-        val id=albumDao.find(1)
-        Assert.assertEquals(id,1)
+        val album = Album(1, "album 1", 10)
+        GlobalScope.launch { albumDao.insertAlbum(album) }
+        val res=albumDao.find(1)
+        Assert.assertEquals(res,1)
     }
 
     @Test
-    fun read_From_Album_Table_Test(){
+    fun read_From_Album_Table_Test()= runBlocking{
         val album = Album(1, "album 1", 1)
         albumDao.insertAlbum(album)
         val res=albumDao.read()
@@ -83,31 +85,6 @@ class AlbumDbTest {
 fun close_album_db() {
     db.close()
 }
-
-/*    val context = ApplicationProvider.getApplicationContext<Context>()
-    @Test
-    fun firstTest() {
-        assertThat("1.0").isAtMost("1.1")
-
-    }
-
-    @Test
-    fun secondTest(){
-        assertThat(true).isTrue()
-    }
-
-    @Test
-    fun thirdTest(){
-
-
-
-    }
-    @Test
-    fun `delete user who has id = 1 will return 1`() = runBlocking {
-        val album = Album(1, "album 1", 1)
-        val albumId = albumDao.insertAlbum(album)
-        assertThat(albumId).isAtMost(2)
-        val result = albumDao.deleteAlbum(album)
-        assertThat(result).isAtMost(1)
-    }*/
+/*
+*/
 }

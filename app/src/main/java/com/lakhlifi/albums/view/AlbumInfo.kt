@@ -13,6 +13,8 @@ import com.lakhlifi.albums.databinding.ActivityAlbumInfoBinding
 import com.lakhlifi.albums.network.model.Album
 import com.lakhlifi.albums.viewModel.AlbumInfoViewModel
 import com.lakhlifi.albums.viewModel.AlbumViewModel
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
 
@@ -42,14 +44,19 @@ class AlbumInfo : AppCompatActivity() {
         albumInfoViewModel.getAlbum(application,id)
         albumInfoViewModel.album.observe(this, Observer{
             album_title_binding.setText(it.title)
-           Picasso.get().load("https://picsum.photos/id/${it.id}/200").into(album_image_binding);
+           Picasso
+               .get()
+               .load("https://picsum.photos/id/${it.id}/200")
+               .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+               .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+               .placeholder(R.drawable.image)
+               .into(album_image_binding);
             //id_album_binding.setText(""+it.id)
 
             id_album.apply {
                 text= it.id.toString()
                 setBackgroundColor(Color.RED)
             }
-
             id_user_binding.text=""+it.userId
 
         })
