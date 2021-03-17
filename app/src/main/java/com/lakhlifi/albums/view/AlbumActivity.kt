@@ -26,42 +26,57 @@ class AlbumActivity : AppCompatActivity() {
     lateinit var rvAlbums: RecyclerView
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var btn_add_item: Button
-
     private lateinit var albumViewModel: AlbumViewModel
     private lateinit var adapter: AlbumAdapter
-    private lateinit var empty_img:ImageView
+    private lateinit var empty_img: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_album)
         rvAlbums = findViewById(R.id.rv_album)
-        swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swip_refresh_layout)
+        swipeRefreshLayout = findViewById(R.id.swip_refresh_layout)
+        empty_img = findViewById(R.id.empty_img)
         adapter = AlbumAdapter(this)
         itemTouchHelper.attachToRecyclerView(rvAlbums)
         rvAlbums.adapter = adapter
-        empty_img=findViewById(R.id.empty_img)
+
+        //button intialisation
+        btn_add_item = findViewById(R.id.btn_add_item)
+
+        //empty_img=findViewById(R.id.empty_img)
         albumViewModel = ViewModelProvider(this).get(AlbumViewModel::class.java)
         //albumViewModel.getAlbums(application)
         albumViewModel.albumList.observe(this, Observer {
-                adapter.setAlbumList(it)
+
+            if(it.isNotEmpty()){
+                btn_add_item.visibility=View.VISIBLE
+                rvAlbums.visibility=View.VISIBLE
+                empty_img.visibility = View.GONE
+
+            }else{
+                empty_img.visibility = View.VISIBLE
+                rvAlbums.visibility=View.GONE
+                btn_add_item.visibility=View.GONE
+            }
+            adapter.setAlbumList(it)
+
         })
         rvAlbums.layoutManager = LinearLayoutManager(this)
+
 
         swipeRefreshLayout.setOnRefreshListener(OnRefreshListener {
             albumViewModel.getAlbums(application)
             swipeRefreshLayout.isRefreshing = false
         })
 
-        btn_add_item=findViewById(R.id.btn_add_item)
-
-    //add an album to database
+        //add an album to database
         btn_add_item.setOnClickListener(View.OnClickListener {
-            val random= Random.nextInt(120,1000)
-            Log.d("random",""+random)
-            var album=Album(random,"album added "+random,12)
-            albumViewModel.insert(this,album)
-            Toast.makeText(this,"item inserted",Toast.LENGTH_LONG).show()
-            Log.d("tag","item inserted")
-            adapter.addItem(1,album)
+            val random = Random.nextInt(120, 1000)
+            Log.d("random", "" + random)
+            var album = Album(random, "album added " + random, 12)
+            albumViewModel.insert(this, album)
+            Toast.makeText(this, "item inserted", Toast.LENGTH_LONG).show()
+            Log.d("tag", "item inserted")
+            adapter.addItem(1, album)
         })
     }
 
@@ -102,10 +117,9 @@ class AlbumActivity : AppCompatActivity() {
                     override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                         if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT)
                             albumViewModel.delete(this@AlbumActivity, removedItem)
-                        Toast.makeText(this@AlbumActivity,"item deleted",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@AlbumActivity, "item deleted", Toast.LENGTH_SHORT)
+                            .show()
                     }
-
-
                 })
                 snackbar.show()
             }

@@ -1,6 +1,5 @@
 package com.lakhlifi.albums.adapter
 
-import android.R.attr.data
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Context
