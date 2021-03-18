@@ -33,9 +33,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    dataBinding {
+   /* dataBinding {
         enabled = true
-    }
+    }*/
     testOptions {
         unitTests.includeAndroidResources = true
         unitTests {
