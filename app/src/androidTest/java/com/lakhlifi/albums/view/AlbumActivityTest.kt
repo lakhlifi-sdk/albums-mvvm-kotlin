@@ -55,11 +55,9 @@ class AlbumActivityTest {
                     clickItemWithId(R.id.album_row)
                 )
             )
-
         //onView(withId(R.id.id_Album)).check(matches(withText("23")))
         //onView(withId(R.id.album_title)).check(matches(isDisplayed()));
         intended(hasComponent(AlbumInfo::class.java.name))
-
         Intents.release()
     }
 
