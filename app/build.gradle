@@ -33,9 +33,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    dataBinding {
+   /* dataBinding {
         enabled = true
-    }
+    }*/
     testOptions {
         unitTests.includeAndroidResources = true
         unitTests {
@@ -49,6 +49,21 @@ android {
         }
     }
 
+}
+apply plugin: 'org.sonarqube'
+sonarqube {
+    properties {
+        property "sonar.projectName", "Albums"
+        property "sonar.projectKey", "Albums"
+        property "sonar.language", "java"
+        property "sonar.projectVersion", "1.1"
+        property "sonar.sources", "src/main/"
+        property "sonar.login", "admin"
+        property "sonar.password", "lakhlifi"
+        property "sonar.host.url", "http://localhost:9000"
+    }
+    //execute this command
+    //gradlew sonarqube -Dsonar.host.url=http://localhost:9000/
 }
 
 

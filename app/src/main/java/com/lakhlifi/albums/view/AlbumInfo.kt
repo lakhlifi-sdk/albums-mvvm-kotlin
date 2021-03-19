@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.databinding.DataBindingUtil
+//import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.lakhlifi.albums.R
-import com.lakhlifi.albums.databinding.ActivityAlbumInfoBinding
+//import com.lakhlifi.albums.databinding.ActivityAlbumInfoBinding
 import com.lakhlifi.albums.network.model.Album
 import com.lakhlifi.albums.viewModel.AlbumInfoViewModel
 import com.lakhlifi.albums.viewModel.AlbumViewModel
@@ -19,18 +19,20 @@ import com.squareup.picasso.Picasso
 
 
 class AlbumInfo : AppCompatActivity() {
-    lateinit var binding:ActivityAlbumInfoBinding
+    //lateinit var binding:ActivityAlbumInfoBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         //get setContentView from DataBindingUtil
-        binding= DataBindingUtil.setContentView(this,R.layout.activity_album_info)
+        //binding= DataBindingUtil.setContentView(this,R.layout.activity_album_info)
+        setContentView(R.layout.activity_album_info)
 
         //views with binding
-        val album_title_binding=binding.albumTitle
+        /*val album_title_binding=binding.albumTitle
         val album_image_binding=binding.imageInfo
         val id_user_binding=binding.idUser
-        val id_album_binding=binding.idAlbum
+        val id_album_binding=binding.idAlbum*/
 
         //views
         val album_title=findViewById<TextView>(R.id.album_title)
@@ -45,20 +47,20 @@ class AlbumInfo : AppCompatActivity() {
         //filter using the method getAlbum
         albumInfoViewModel.getAlbum(application,id)
         albumInfoViewModel.album.observe(this, Observer{
-            album_title_binding.setText(it.title)
+            album_title.setText(it.title)
            Picasso
                .get()
                .load("https://picsum.photos/id/${it.id}/200")
                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                .placeholder(R.drawable.image)
-               .into(album_image_binding);
+               .into(image_info);
             //id_album_binding.setText(""+it.id)
             id_album.apply {
                 text= it.id.toString()
                 setBackgroundColor(Color.TRANSPARENT)
             }
-            id_user_binding.text=""+it.userId
+            id_user.text=""+it.userId
         })
 }
 }
