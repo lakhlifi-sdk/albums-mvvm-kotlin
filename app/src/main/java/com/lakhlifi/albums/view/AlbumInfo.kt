@@ -3,16 +3,13 @@ package com.lakhlifi.albums.view
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.lakhlifi.albums.R
 import com.lakhlifi.albums.databinding.ActivityAlbumInfoBinding
-import com.lakhlifi.albums.network.model.Album
 import com.lakhlifi.albums.viewModel.AlbumInfoViewModel
-import com.lakhlifi.albums.viewModel.AlbumViewModel
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso

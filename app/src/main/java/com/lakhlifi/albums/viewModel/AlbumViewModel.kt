@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lakhlifi.albums.database.AlbumDb
 import com.lakhlifi.albums.network.model.Album
 import com.lakhlifi.albums.repository.AlbumRepository
 import kotlinx.coroutines.launch

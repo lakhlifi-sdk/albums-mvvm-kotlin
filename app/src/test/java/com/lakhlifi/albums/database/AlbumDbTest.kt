@@ -2,9 +2,6 @@ package com.lakhlifi.albums.database
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
-import android.util.Log.d
-import androidx.room.Delete
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import org.junit.Test
@@ -16,10 +13,6 @@ import org.junit.Before
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.checkerframework.checker.nullness.qual.Nullable
 import org.junit.After
 import org.junit.Assert
 import java.io.IOException

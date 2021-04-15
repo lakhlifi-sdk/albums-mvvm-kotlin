@@ -115,10 +115,12 @@ class AlbumActivity : AppCompatActivity() {
                     }
 
                     override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                        if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT)
+                        if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT){
                             albumViewModel.delete(this@AlbumActivity, removedItem)
                         Toast.makeText(this@AlbumActivity, "item deleted", Toast.LENGTH_SHORT)
                             .show()
+
+                        }
                     }
                 })
                 snackbar.show()
