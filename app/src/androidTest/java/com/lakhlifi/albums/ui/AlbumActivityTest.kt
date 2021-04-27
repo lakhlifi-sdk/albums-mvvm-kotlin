@@ -1,4 +1,4 @@
-package com.lakhlifi.albums.view
+package com.lakhlifi.albums.ui
 
 import android.view.View
 import androidx.test.espresso.Espresso.onView
@@ -17,8 +17,6 @@ import com.lakhlifi.albums.R
 import com.lakhlifi.albums.adapter.AlbumAdapter
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
-import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

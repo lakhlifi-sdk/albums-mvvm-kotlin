@@ -8,7 +8,7 @@ import com.google.gson.Gson
 import com.lakhlifi.albums.database.AlbumDb
 import com.lakhlifi.albums.network.ALBUM_URL
 import com.lakhlifi.albums.network.AlbumNetwork
-import com.lakhlifi.albums.network.model.Album
+import com.lakhlifi.albums.model.Album
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -25,7 +25,9 @@ class AlbumRepository() {
         val albumDao = db.albumDao()
         val albums = albumDao.getAllAlbums()
 
-        if (albums.size > 0) {
+
+
+        if (albums.size < 0) {
             Log.d("ALBUMS", "FROM DB${Gson().toJson(albums)}")
             albumList.value = albums
             return
@@ -35,8 +37,9 @@ class AlbumRepository() {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
 
-            val service = retrofit.create(AlbumNetwork::class.java)
 
+
+            val service = retrofit.create(AlbumNetwork::class.java)
             service.getAlbums().enqueue(object : Callback<List<Album>> {
                 override fun onFailure(call: Call<List<Album>>, t: Throwable) {
                     Toast.makeText(application, "error", Toast.LENGTH_LONG).show()
@@ -49,7 +52,7 @@ class AlbumRepository() {
                     Log.d("ALBUMS", "FROM API")
                     Log.d("ALbumRepository", "Response: ${Gson().toJson(response.body())}")
                     albumList.value = response.body()
-                    GlobalScope.launch { albumDao.insertAlbum(albumList.value!!) }
+                    GlobalScope.launch { albumDao.insertAlbums(albumList.value!!) }
 
                 }
             })

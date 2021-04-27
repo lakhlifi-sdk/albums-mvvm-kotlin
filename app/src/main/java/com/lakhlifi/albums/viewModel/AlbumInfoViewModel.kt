@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.lakhlifi.albums.database.AlbumDb
-import com.lakhlifi.albums.network.model.Album
+import com.lakhlifi.albums.model.Album
 import kotlinx.coroutines.launch
 
 class AlbumInfoViewModel(application: Application) : AndroidViewModel(application) {

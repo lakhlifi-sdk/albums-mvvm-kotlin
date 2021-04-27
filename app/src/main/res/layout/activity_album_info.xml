@@ -4,14 +4,14 @@
     <data>
         <variable
             name="myAlbum"
-            type="com.lakhlifi.albums.network.model.Album"/>
+            type="com.lakhlifi.albums.model.Album"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.AlbumInfo">
+        tools:context=".ui.AlbumInfo">
 
         <LinearLayout
             android:layout_width="match_parent"

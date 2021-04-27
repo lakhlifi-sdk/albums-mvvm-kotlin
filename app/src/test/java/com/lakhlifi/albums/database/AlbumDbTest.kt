@@ -7,7 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import org.junit.Test
 import com.google.common.truth.Truth.assertThat
 import com.lakhlifi.albums.dao.AlbumDao
-import com.lakhlifi.albums.network.model.Album
+import com.lakhlifi.albums.model.Album
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.runner.RunWith

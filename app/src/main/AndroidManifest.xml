@@ -11,9 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Albums">
-        <activity android:name=".view.AlbumInfo"></activity>
-        <activity android:name=".view.AlbumActivity" />
-        <activity android:name=".view.SplashActivity">
+
+        <activity android:name=".ui.AlbumInfo"></activity>
+        <activity android:name=".ui.AlbumActivity" >
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,6 +1,6 @@
 package com.lakhlifi.albums.network
 
-import com.lakhlifi.albums.network.model.Album
+import com.lakhlifi.albums.model.Album
 import retrofit2.Call
 import retrofit2.http.GET
 

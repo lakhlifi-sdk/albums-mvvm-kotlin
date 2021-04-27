@@ -1,4 +1,4 @@
-package com.lakhlifi.albums.view
+package com.lakhlifi.albums.ui
 
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -21,19 +21,12 @@ class AlbumInfo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
-        //get setContentView from DataBindingUtil
-        binding= DataBindingUtil.setContentView(this,R.layout.activity_album_info)
-        //setContentView(R.layout.activity_album_info)
 
-        //views with binding
+        binding= DataBindingUtil.setContentView(this,R.layout.activity_album_info)
+
         val album_title_binding=binding.albumTitle
         val album_image_binding=binding.imageInfo
-        val id_user_binding=binding.idUser
-        val id_album_binding=binding.idAlbum
 
-        //views
-        //val album_title=findViewById<TextView>(R.id.album_title)
-        //val image_info=findViewById<ImageView>(R.id.image_info)
         val id_album=findViewById<TextView>(R.id.id_Album)
         val id_user=findViewById<TextView>(R.id.id_user)
 
@@ -52,7 +45,6 @@ class AlbumInfo : AppCompatActivity() {
                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                .placeholder(R.drawable.image)
                .into(album_image_binding);
-            //id_album_binding.setText(""+it.id)
             id_album.apply {
                 text= it.id.toString()
                 setBackgroundColor(Color.TRANSPARENT)

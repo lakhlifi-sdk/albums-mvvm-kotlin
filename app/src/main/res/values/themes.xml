@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Albums" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Albums" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="android:windowActivityTransitions">true</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>

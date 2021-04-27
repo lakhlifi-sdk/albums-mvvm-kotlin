@@ -1,12 +1,12 @@
 package com.lakhlifi.albums.dao
 
 import androidx.room.*
-import com.lakhlifi.albums.network.model.Album
+import com.lakhlifi.albums.model.Album
 
 @Dao
 interface AlbumDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend  fun insertAlbum(List: List<Album>)
+    suspend  fun insertAlbums(List: List<Album>)
 
     @Delete
     suspend fun deleteAlbum(album: Album) : Int

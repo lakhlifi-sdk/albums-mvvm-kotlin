@@ -1,4 +1,4 @@
-package com.lakhlifi.albums.view
+package com.lakhlifi.albums.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

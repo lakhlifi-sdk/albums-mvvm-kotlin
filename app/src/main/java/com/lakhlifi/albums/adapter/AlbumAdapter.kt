@@ -4,45 +4,39 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.lakhlifi.albums.R
-import com.lakhlifi.albums.network.model.Album
-import com.lakhlifi.albums.view.AlbumInfo
+import com.lakhlifi.albums.model.Album
+import com.lakhlifi.albums.ui.AlbumInfo
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
+import java.util.*
 
 
-class AlbumAdapter( val context: Context) : RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
-     private var album_list: MutableList<Album> = mutableListOf()
+class AlbumAdapter( val context: Context) : RecyclerView.Adapter<AlbumAdapter.ViewHolder>(), Filterable{
+    private var album_list: MutableList<Album> = mutableListOf()
+
+    var albumFilterList = ArrayList<Album>()
+
+
     fun setAlbumList(list: List<Album>){
-        this.album_list = list.toMutableList()
+
+        this.albumFilterList = list as ArrayList<Album>
+        this.album_list.addAll(albumFilterList)
         notifyDataSetChanged()
     }
 
-    fun removeItem(position: Int):Album {
-       val item= album_list.removeAt(position)
-        notifyItemRemoved(position)
-        return item
-    }
-    fun getNotAt(position: Int):Album{
-        return album_list.get(position)
-    }
 
-    fun restoreItem( position: Int,item: Album) {
-        album_list.add(position,item)
-        notifyItemInserted(position)
-    }
-    fun addItem( position: Int,item: Album) {
-        album_list.add(position,item)
-        notifyItemInserted(position)
-    }
 
 
     //get view holder
@@ -55,24 +49,18 @@ class AlbumAdapter( val context: Context) : RecyclerView.Adapter<AlbumAdapter.Vi
         return ViewHolder(albumView)
     }
 
-    // Provide a direct reference to each of the views within a data item
-    // Used to cache the views within the item layout for fast access
-    inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
-        // Your holder should contain and initialize a member variable
-        // for any view that will be set as you render a row
+    class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
         val album_title = itemView.findViewById<TextView>(R.id.txt_title)
         val album_image =itemView.findViewById<ImageView>(R.id.album_image)
     }
-    fun getAlbumAt(position: Int): Album {
-        return album_list.get(position)
-    }
-    // Involves populating data into the item through holder
-    override fun onBindViewHolder(viewHolder: AlbumAdapter.ViewHolder, position: Int) {
+
+
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         // Get the data model based on position
-        val album: Album = album_list.get(position)
+        val album: Album = albumFilterList.get(position)
         // Set item views based on your views and data model
         val album_title = viewHolder.album_title
-        album_title.setText(album.title)
+        album_title.text = album.title +" "+ album.id
         Picasso.get()
             .load("https://picsum.photos/200/300")
             .placeholder(R.drawable.image)
@@ -90,8 +78,61 @@ class AlbumAdapter( val context: Context) : RecyclerView.Adapter<AlbumAdapter.Vi
             context.startActivity(i,options.toBundle())
         }
     }
-    // Returns the total count of items in the list
     override fun getItemCount(): Int {
-        return album_list.size
+        return albumFilterList.size
     }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                if (charSearch.isEmpty()) {
+                    albumFilterList =  album_list as ArrayList<Album>
+                } else {
+                    val resultList = ArrayList<Album>()
+                    for (row in album_list) {
+                        if (row.title.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                            resultList.add(row)
+                        }
+                    }
+                    albumFilterList = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = albumFilterList
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                albumFilterList = results?.values as ArrayList<Album>
+                Log.d("****","--->"+albumFilterList)
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+
+
+
+
+
+
+    fun removeItem(position: Int):Album {
+        val item= album_list.removeAt(position)
+        notifyItemRemoved(position)
+        return item
+    }
+
+
+    fun restoreItem( position: Int,item: Album) {
+        album_list.add(position,item)
+        notifyItemInserted(position)
+    }
+
+
+    fun addItem( position: Int,item: Album) {
+        album_list.add(position,item)
+        notifyItemInserted(position)
+    }
+
+
 }
